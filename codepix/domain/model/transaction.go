@@ -65,7 +65,7 @@ func NewTransaction(accountFrom *Account, amount float64, pixKeyTo *PixKey, desc
 		Description: description,
 	}
 
-	transaction.ID = uuid.Must(uuid.NewV4()).String()
+	transaction.ID = uuid.Must(uuid.NewV4(), nil).String()
 	transaction.CreatedAt = time.Now()
 
 	err := transaction.isValid()
