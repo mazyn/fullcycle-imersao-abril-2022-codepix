@@ -1,15 +1,11 @@
+/*
+Copyright © 2022 NAME HERE <EMAIL ADDRESS>
+
+*/
 package main
 
-import (
-	"github.com/jinzhu/gorm"
-	"github.com/mazyn/fullcycle-imersao-abril-2022-codepix/codepix/application/grpc"
-	"github.com/mazyn/fullcycle-imersao-abril-2022-codepix/codepix/infrastructure/db"
-	"os"
-)
-
-var database *gorm.DB
+import "github.com/mazyn/fullcycle-imersao-abril-2022-codepix/codepix/cmd"
 
 func main() {
-	database = db.ConnectDB(os.Getenv("env"))
-	grpc.StartGrpcServer(database, 50051)
+	cmd.Execute()
 }
