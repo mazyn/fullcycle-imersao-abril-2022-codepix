@@ -26,12 +26,12 @@ func (r PixKeyRepositoryDb) AddAccount(account *model.Account) error {
 	return nil
 }
 
-func (r PixKeyRepositoryDb) RegisterKey(pixKey *model.PixKey) error {
+func (r PixKeyRepositoryDb) RegisterKey(pixKey *model.PixKey) (*model.PixKey, error) {
 	err := r.Db.Create(pixKey).Error
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return pixKey, nil
 }
 
 func (r PixKeyRepositoryDb) FindKeyByKind(key string, kind string) (*model.PixKey, error) {
