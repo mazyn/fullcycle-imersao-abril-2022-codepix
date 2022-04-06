@@ -3,14 +3,22 @@ module github.com/mazyn/fullcycle-imersao-abril-2022-codepix/codepix
 go 1.15
 
 require (
-	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d
+	github.com/asaskevich/govalidator v0.0.0-20200907205600-7a23bdc65eef
+	github.com/confluentinc/confluent-kafka-go v1.5.2
+	github.com/go-playground/validator/v10 v10.4.1
+	github.com/golang/protobuf v1.4.3
 	github.com/jinzhu/gorm v1.9.16
-	github.com/joho/godotenv v1.4.0
-	github.com/lib/pq v1.10.4
+	github.com/joho/godotenv v1.3.0
+	github.com/lib/pq v1.9.0
+	github.com/mitchellh/go-homedir v1.1.0
 	github.com/satori/go.uuid v1.2.0
-	github.com/stretchr/testify v1.7.1
-	google.golang.org/grpc v1.45.0
+	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
+	github.com/spf13/cobra v1.4.0
+	github.com/spf13/viper v1.7.1
+	github.com/stretchr/testify v1.7.0
+	google.golang.org/grpc v1.35.0
+	google.golang.org/protobuf v1.25.0
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
-	gorm.io/driver/sqlite v1.3.1
-	gorm.io/gorm v1.23.1
+	gorm.io/driver/sqlite v1.1.4
+	gorm.io/gorm v1.20.12
 )
