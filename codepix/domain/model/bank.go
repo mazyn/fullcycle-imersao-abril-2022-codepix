@@ -27,10 +27,16 @@ func NewBank(code string, name string) (*Bank, error) {
 		Name: name,
 	}
 
-	bank.ID = uuid.Must(uuid.NewV4(), nil).String()
+	id, err := uuid.NewV4()
+
+	if err != nil {
+		return nil, err
+	}
+
+	bank.ID = id.String()
 	bank.CreatedAt = time.Now()
 
-	err := bank.isValid()
+	err = bank.isValid()
 
 	if err != nil {
 		return nil, err

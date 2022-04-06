@@ -50,10 +50,16 @@ func NewPixKey(kind string, account *Account, key string) (*PixKey, error) {
 		Status:  "active",
 	}
 
-	pixKey.ID = uuid.Must(uuid.NewV4(), nil).String()
+	id, err := uuid.NewV4()
+
+	if err != nil {
+		return nil, err
+	}
+
+	pixKey.ID = id.String()
 	pixKey.CreatedAt = time.Now()
 
-	err := pixKey.isValid()
+	err = pixKey.isValid()
 
 	if err != nil {
 		return nil, err

@@ -31,10 +31,16 @@ func NewAccount(bank *Bank, number string, ownerName string) (*Account, error) {
 		Number:    number,
 	}
 
-	account.ID = uuid.Must(uuid.NewV4(), nil).String()
+	id, err := uuid.NewV4()
+
+	if err != nil {
+		return nil, err
+	}
+
+	account.ID = id.String()
 	account.CreatedAt = time.Now()
 
-	err := account.isValid()
+	err = account.isValid()
 
 	if err != nil {
 		return nil, err

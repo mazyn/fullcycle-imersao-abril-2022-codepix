@@ -2,7 +2,7 @@ package repository
 
 import (
 	"fmt"
-	"github.com/mazyn/fullcycle-imersao-abril-2022-codepix/domain/model"
+	"github.com/mazyn/fullcycle-imersao-abril-2022-codepix/codepix/domain/model"
 	"gorm.io/gorm"
 )
 

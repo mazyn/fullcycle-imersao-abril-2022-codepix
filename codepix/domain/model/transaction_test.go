@@ -1,7 +1,7 @@
 package model_test
 
 import (
-	"github.com/mazyn/fullcycle-imersao-abril-2022-codepix/domain/model"
+	"github.com/mazyn/fullcycle-imersao-abril-2022-codepix/codepix/domain/model"
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/require"
 	"testing"
