@@ -7,6 +7,7 @@ import (
 	"testing"
 )
 
+//goland:noinspection GoNilness
 func TestModel_NewPixKey(t *testing.T) {
 	code := "001"
 	name := "Banco do Brasil"

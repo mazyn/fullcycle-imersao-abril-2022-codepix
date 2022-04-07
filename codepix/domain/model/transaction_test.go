@@ -52,7 +52,7 @@ func TestModel_ChangeStatusOfATransaction(t *testing.T) {
 	bank, _ := model.NewBank(code, name)
 
 	accountNumber := "abcnumber"
-	ownerName := "Wesley"
+	ownerName := "Itadori Yuji"
 	account, _ := model.NewAccount(bank, accountNumber, ownerName)
 
 	accountNumberDestination := "abcdestination"

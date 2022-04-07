@@ -17,7 +17,7 @@ func TestModel_NewAccount(t *testing.T) {
 	account, err := model.NewAccount(bank, accountNumber, ownerName)
 
 	require.Nil(t, err)
-	require.NotEmptyf(t, uuid.FromStringOrNil(account.ID), "")
+	require.NotEmpty(t, uuid.FromStringOrNil(account.ID))
 	require.Equal(t, account.Number, accountNumber)
 	require.Equal(t, account.BankID, bank.ID)
 
