@@ -2,17 +2,17 @@
 codepix/.pgdata
 
 # Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
+codepix/*.exe
+codepix/*.exe~
+codepix/*.dll
+codepix/*.so
+codepix/*.dylib
 
 # Test binary, built with `go test -c`
-*.test
+codepix/*.test
 
 # Output of the go coverage tool, specifically when used with LiteIDE
-*.out
+codepix/*.out
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
