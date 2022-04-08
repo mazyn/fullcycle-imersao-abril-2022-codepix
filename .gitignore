@@ -1,4 +1,7 @@
 .idea
+
+# CODEPIX
+
 codepix/.pgdata
 
 # Binaries for programs and plugins
@@ -17,3 +20,8 @@ codepix/*.out
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
+# NEST
+
+back-api/node_modules
+back-api/dist
+back-api/.docker/dbdata
