@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-
   app:
     build: .
     entrypoint: .docker/entrypoint.sh
@@ -15,7 +14,7 @@ services:
     env_file:
       - ./.env
     extra_hosts:
-      - "host.docker.internal:172.17.0.1"
+      - 'host.docker.internal:172.17.0.1'
 
   db:
     build: .docker/postgres
@@ -27,3 +26,8 @@ services:
     environment:
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=nest
+
+networks:
+  default:
+    external:
+      name: codepix
