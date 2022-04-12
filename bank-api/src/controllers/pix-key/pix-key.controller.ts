@@ -86,7 +86,6 @@ export class PixKeyController {
     const pixService: PixService = this.client.getService('PixService');
 
     try {
-      console.log(chalk.yellow('cheking  to see if key exists'));
       await pixService.find(params).toPromise();
       return false;
     } catch (e) {

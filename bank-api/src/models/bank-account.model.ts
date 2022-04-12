@@ -8,7 +8,7 @@ import {
 import { v4 } from 'uuid';
 
 @Entity({
-  name: 'bank_account',
+  name: 'bank_accounts',
 })
 export class BankAccount {
   @PrimaryGeneratedColumn('uuid')

@@ -43,7 +43,7 @@ export class CreatePixKeyTable1649533947885 implements MigrationInterface {
         name: 'pix_keys_bank_account_id_foreign_key',
         columnNames: ['bank_account_id'],
         referencedColumnNames: ['id'],
-        referencedTableName: 'bank_account',
+        referencedTableName: 'bank_accounts',
       }),
     );
   }

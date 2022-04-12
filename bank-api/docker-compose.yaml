@@ -10,13 +10,13 @@ services:
     volumes:
       - .:/home/node/app
     depends_on:
-      - db
+      - bank-db
     env_file:
       - ./.env
     extra_hosts:
       - 'host.docker.internal:172.17.0.1'
 
-  db:
+  bank-db:
     build: .docker/postgres
     container_name: imersao-fullstack-nest-bank-db
     restart: always
