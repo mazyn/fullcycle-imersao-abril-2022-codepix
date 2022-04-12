@@ -12,6 +12,8 @@ import { BankAccountController } from './controllers/bank-account/bank-account.c
 import { FixturesCommand } from './fixtures/fixtures.command';
 import { PixKeyController } from './controllers/pix-key/pix-key.controller';
 import { PixKey } from './models/pix-key.model';
+import { TransactionController } from './controllers/transaction/transaction.controller';
+import { Transaction } from './models/transaction.model';
 
 @Module({
   imports: [
@@ -24,9 +26,10 @@ import { PixKey } from './models/pix-key.model';
       username: process.env.TYPEORM_USERNAME,
       password: process.env.TYPEORM_PASSWORD,
       database: process.env.TYPEORM_DATABASE,
-      entities: [BankAccount, PixKey],
+      entities: [BankAccount, PixKey, Transaction],
+      synchronize: true,
     }),
-    TypeOrmModule.forFeature([BankAccount, PixKey]),
+    TypeOrmModule.forFeature([BankAccount, PixKey, Transaction]),
     ClientsModule.register([
       {
         name: 'CODEPIX_PACKAGE',
@@ -38,8 +41,32 @@ import { PixKey } from './models/pix-key.model';
         },
       },
     ]),
+    ClientsModule.register([
+      {
+        name: 'TRANSACTION_SERVICE',
+        transport: Transport.KAFKA,
+        options: {
+          client: {
+            clientId: process.env.KAFKA_CLIENT_ID,
+            brokers: [process.env.KAFKA_BROKER],
+          },
+          consumer: {
+            groupId:
+              !process.env.KAFKA_CONSUMER_GROUP_ID ||
+              process.env.KAFKA_CONSUMER_GROUP_ID === ''
+                ? 'my-consumer-' + Math.random()
+                : process.env.KAFKA_CONSUMER_GROUP_ID,
+          },
+        },
+      },
+    ]),
   ],
-  controllers: [AppController, BankAccountController, PixKeyController],
+  controllers: [
+    AppController,
+    BankAccountController,
+    PixKeyController,
+    TransactionController,
+  ],
   providers: [AppService, FixturesCommand],
 })
 export class AppModule {}
