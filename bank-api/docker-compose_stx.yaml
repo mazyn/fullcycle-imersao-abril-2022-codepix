@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  app_stx:
+    build: .
+    entrypoint: .docker/entrypoint.sh
+    container_name: imersao-fullstack-nest-bank-stx
+    ports:
+      - 8002:3000
+    volumes:
+      - .:/home/node/app
+      - ./dist-stx:/home/node/app/dist
+    depends_on:
+      - db_stx
+    env_file:
+      - ./.env
+    environment:
+      - TYPEORM_DATABASE=stx
+      - TYPEORM_HOST=db_stx
+      - BANK_CODE=STX
+    extra_hosts:
+      - 'host.docker.internal:172.17.0.1'
+    networks:
+      - default
+      - stx-network
+
+  db_stx:
+    build: .docker/postgres
+    container_name: imersao-fullstack-nest-bank-db-stx
+    restart: always
+    tty: true
+    volumes:
+      - .docker/dbdata-stx:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=stx
+    networks:
+      - stx-network
+
+networks:
+  default:
+    external:
+      name: codepix
+  stx-network:
+    driver: bridge

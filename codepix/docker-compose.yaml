@@ -11,6 +11,8 @@ services:
       - db
     extra_hosts:
       - 'host.docker.internal:172.17.0.1'
+    env_file:
+      - ./.env
 
   db:
     image: postgres:9.4

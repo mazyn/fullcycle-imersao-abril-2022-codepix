@@ -23,5 +23,5 @@ codepix/*.out
 # NEST
 
 bank-api/node_modules
-bank-api/dist
-bank-api/.docker/dbdata
+bank-api/dist*
+bank-api/.docker/dbdata*

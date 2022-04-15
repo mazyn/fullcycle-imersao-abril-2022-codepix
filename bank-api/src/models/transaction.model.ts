@@ -34,7 +34,7 @@ export class Transaction {
   @Column()
   amount: number;
 
-  @Column()
+  @Column({ nullable: true })
   description: string;
 
   @ManyToOne(() => BankAccount)
@@ -48,13 +48,13 @@ export class Transaction {
   @JoinColumn({ name: 'bank_account_from_id' })
   bankAccountFrom: BankAccount;
 
-  @Column()
-  bank_account_from_id: string;
+  @Column({ nullable: true })
+  bank_account_from_id: string = null;
 
-  @Column()
+  @Column({ nullable: true })
   pix_key_key: string;
 
-  @Column()
+  @Column({ nullable: true })
   pix_key_kind: PixKeyKind;
 
   @Column()

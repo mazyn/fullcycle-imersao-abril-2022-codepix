@@ -46,7 +46,7 @@ export class CreateTransactionsTable1649763583251
             isNullable: true,
           },
           {
-            name: 'pix_key_ind',
+            name: 'pix_key_kind',
             type: 'varchar',
             isNullable: true,
           },

@@ -2,13 +2,15 @@ package kafka
 
 import (
 	"fmt"
+	"log"
+	"os"
+
 	ckafka "github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/jinzhu/gorm"
 	"github.com/mazyn/fullcycle-imersao-abril-2022-codepix/codepix/application/factory"
 	appmodel "github.com/mazyn/fullcycle-imersao-abril-2022-codepix/codepix/application/model"
 	"github.com/mazyn/fullcycle-imersao-abril-2022-codepix/codepix/application/usecase"
 	"github.com/mazyn/fullcycle-imersao-abril-2022-codepix/codepix/domain/model"
-	"os"
 )
 
 type KafkaProcessor struct {
@@ -57,6 +59,8 @@ func (k *KafkaProcessor) processMessage(msg *ckafka.Message) {
 	transactionsTopic := "transactions"
 	transactionConfirmationTopic := "transaction_confirmation"
 
+	fmt.Println("received message to process - topic:", *msg.TopicPartition.Topic)
+
 	switch topic := *msg.TopicPartition.Topic; topic {
 	case transactionsTopic:
 		k.processTransaction(msg)
@@ -73,6 +77,7 @@ func (k *KafkaProcessor) processTransaction(msg *ckafka.Message) error {
 	transaction := appmodel.NewTransaction()
 	err := transaction.ParseJson(msg.Value)
 	if err != nil {
+		log.Fatal(err)
 		return err
 	}
 
@@ -84,6 +89,7 @@ func (k *KafkaProcessor) processTransaction(msg *ckafka.Message) error {
 		transaction.PixKeyTo,
 		transaction.PixKeyKindTo,
 		transaction.Description,
+		transaction.ID,
 	)
 	if err != nil {
 		fmt.Println("error registering transaction", err)
@@ -96,13 +102,17 @@ func (k *KafkaProcessor) processTransaction(msg *ckafka.Message) error {
 	transactionJson, err := transaction.ToJson()
 
 	if err != nil {
+		log.Fatal(err)
 		return err
 	}
 
 	err = Publish(string(transactionJson), topic, k.Producer, k.DeliveryChan)
 	if err != nil {
+		log.Fatal(err)
 		return err
 	}
+
+	log.Println("finished processing transaction", transaction.ID)
 
 	return nil
 }
@@ -117,12 +127,14 @@ func (k *KafkaProcessor) processTransactionConfirmation(msg *ckafka.Message) err
 	transactionUseCase := factory.TransactionUseCaseFactory(k.Database)
 
 	if transaction.Status == model.TransactionConfirmed {
-		err = k.confirmTransaction(transaction, transactionUseCase)
+		err = k.confirmTransaction(transaction, &transactionUseCase)
+		log.Println("confirmed transaction id ", transaction.ID)
 		if err != nil {
 			return err
 		}
 	} else if transaction.Status == model.TransactionCompleted {
 		_, err := transactionUseCase.Complete(transaction.ID)
+		log.Println("completed transaction id ", transaction.ID)
 		if err != nil {
 			return err
 		}
@@ -131,7 +143,7 @@ func (k *KafkaProcessor) processTransactionConfirmation(msg *ckafka.Message) err
 	return nil
 }
 
-func (k *KafkaProcessor) confirmTransaction(transaction *appmodel.Transaction, transactionUseCase usecase.TransactionUseCase) error {
+func (k *KafkaProcessor) confirmTransaction(transaction *appmodel.Transaction, transactionUseCase *usecase.TransactionUseCase) error {
 	confirmedTransaction, err := transactionUseCase.Confirm(transaction.ID)
 	if err != nil {
 		return err

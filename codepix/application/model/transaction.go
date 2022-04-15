@@ -3,7 +3,7 @@ package model
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/asaskevich/govalidator"
+	"github.com/go-playground/validator/v10"
 )
 
 type Transaction struct {
@@ -18,12 +18,12 @@ type Transaction struct {
 }
 
 func (t *Transaction) isValid() error {
-	_, err := govalidator.ValidateStruct(t)
+	v := validator.New()
+	err := v.Struct(t)
 	if err != nil {
-		_ = fmt.Errorf("error during transaction validation: %s", err.Error())
+		_ = fmt.Errorf("Error during Transaction validation: %s", err.Error())
 		return err
 	}
-
 	return nil
 }
 

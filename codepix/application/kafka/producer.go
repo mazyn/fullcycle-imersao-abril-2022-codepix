@@ -37,9 +37,9 @@ func DeliveryReport(deliveryChan chan ckafka.Event) {
 		switch ev := e.(type) {
 		case *ckafka.Message:
 			if ev.TopicPartition.Error != nil {
-				fmt.Println("Delivery failed:", ev.TopicPartition)
+				fmt.Println("Delivery failed:", *ev.TopicPartition.Topic)
 			} else {
-				fmt.Println("Delivery message to:", ev.TopicPartition)
+				fmt.Println("Delivery message to:", *ev.TopicPartition.Topic)
 			}
 		}
 	}

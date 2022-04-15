@@ -15,6 +15,7 @@ import { ClientKafka, MessagePattern, Payload } from '@nestjs/microservices';
 import { Producer } from '@nestjs/microservices/external/kafka.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as chalk from 'chalk';
 
 import { BankAccount } from '../../models/bank-account.model';
 import { PixKey } from '../../models/pix-key.model';
@@ -93,14 +94,14 @@ export class TransactionController implements OnModuleInit, OnModuleDestroy {
       amount: body.amount * -1,
       bank_account_id: bankAccountId,
       operation: TransactionOperation.debit,
-    })[0];
+    });
     transaction = await this.transactionRepo.save(transaction);
 
     const sendData = {
       id: transaction.external_id,
       accountId: bankAccountId,
       amount: body.amount,
-      pixkeyto: body.pix_key_key,
+      pixKeyTo: body.pix_key_key,
       pixKeyKindTo: body.pix_key_kind,
       description: body.description,
     };
@@ -115,6 +116,10 @@ export class TransactionController implements OnModuleInit, OnModuleDestroy {
 
   @MessagePattern(`bank${process.env.BANK_CODE}`)
   async doTransaction(@Payload() message) {
+    console.log(
+      chalk.green(`Received message - value: ${JSON.stringify(message.value)}`),
+    );
+
     if (message.value.status === 'pending') {
       await this.receivedTransaction(message.value);
     }
@@ -132,12 +137,14 @@ export class TransactionController implements OnModuleInit, OnModuleDestroy {
       },
     });
 
+    const accountFrom = await this.bankAccountRepo.findOne(data.accountId);
+
     const transaction = this.transactionRepo.create({
       external_id: data.id,
       amount: data.amount,
       description: data.description,
       bank_account_id: pixKey.bank_account_id,
-      bank_account_from_id: data.accountId,
+      bank_account_from_id: accountFrom?.id,
       operation: TransactionOperation.credit,
       status: TransactionStatus.completed,
     });
@@ -155,6 +162,10 @@ export class TransactionController implements OnModuleInit, OnModuleDestroy {
         { key: 'transaction_confirmation', value: JSON.stringify(sendData) },
       ],
     });
+
+    console.log(
+      chalk.green('Transaction confirmation message sent - status: confirmed'),
+    );
   }
 
   async confirmedTransaction(data) {
@@ -175,7 +186,7 @@ export class TransactionController implements OnModuleInit, OnModuleDestroy {
       id: data.id,
       accountId: transaction.bank_account_id,
       amount: Math.abs(transaction.amount),
-      pixkeyto: transaction.pix_key_key,
+      pixKeyTo: transaction.pix_key_key,
       pixKeyKindTo: transaction.pix_key_kind,
       description: transaction.description,
       status: TransactionStatus.completed,
@@ -187,5 +198,9 @@ export class TransactionController implements OnModuleInit, OnModuleDestroy {
         { key: 'transaction_confirmation', value: JSON.stringify(sendData) },
       ],
     });
+
+    console.log(
+      chalk.green('Transaction confirmation message sent - status: completed'),
+    );
   }
 }

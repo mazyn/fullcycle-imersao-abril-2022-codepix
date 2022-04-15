@@ -27,8 +27,8 @@ type Transactions struct {
 type Transaction struct {
 	Base              `valid:"required"`
 	AccountFrom       *Account `valid:"-"`
-	AccountFromID     string   `gorm:"column:account_from_id;type:uuid;not null" valid:"notnull"`
-	Amount            float64  `json:"amount" gorm:"type:float;not null" valid:"notnull"`
+	AccountFromID     string   `gorm:"column:account_from_id;type:uuid;" valid:"notnull"`
+	Amount            float64  `json:"amount" gorm:"type:float" valid:"notnull"`
 	PixKeyTo          *PixKey  `valid:"-"`
 	PixKeyToID        string   `gorm:"column:pix_key_to_id;type:uuid;" valid:"notnull"`
 	Status            string   `json:"status" gorm:"type:varchar(20);not null" valid:"notnull"`
@@ -58,18 +58,23 @@ func (t *Transaction) isValid() error {
 	return nil
 }
 
-func NewTransaction(accountFrom *Account, amount float64, pixKeyTo *PixKey, description string) (*Transaction, error) {
+func NewTransaction(accountFrom *Account, amount float64, pixKeyTo *PixKey, description string, id string) (*Transaction, error) {
 	transaction := Transaction{
-		AccountFrom: accountFrom,
-		Amount:      amount,
-		PixKeyTo:    pixKeyTo,
-		Status:      TransactionPending,
-		Description: description,
+		AccountFrom:   accountFrom,
+		AccountFromID: accountFrom.ID,
+		Amount:        amount,
+		PixKeyTo:      pixKeyTo,
+		PixKeyToID:    pixKeyTo.ID,
+		Status:        TransactionPending,
+		Description:   description,
 	}
 
-	id := uuid.NewV4()
+	if id == "" {
+		transaction.ID = uuid.NewV4().String()
+	} else {
+		transaction.ID = id
+	}
 
-	transaction.ID = id.String()
 	transaction.CreatedAt = time.Now()
 
 	err := transaction.isValid()

@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  app_nlb:
+    build: .
+    entrypoint: .docker/entrypoint.sh
+    container_name: imersao-fullstack-nest-bank-nlb
+    ports:
+      - 8001:3000
+    volumes:
+      - .:/home/node/app
+      - ./dist-nlb:/home/node/app/dist
+    depends_on:
+      - db_nlb
+    env_file:
+      - ./.env
+    environment:
+      - TYPEORM_DATABASE=nlb
+      - TYPEORM_HOST=db_nlb
+      - BANK_CODE=NLB
+    extra_hosts:
+      - 'host.docker.internal:172.17.0.1'
+    networks:
+      - default
+      - nlb-network
+
+  db_nlb:
+    build: .docker/postgres
+    container_name: imersao-fullstack-nest-bank-db-nlb
+    restart: always
+    tty: true
+    volumes:
+      - .docker/dbdata-nlb:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=nlb
+    networks:
+      - nlb-network
+
+networks:
+  default:
+    external:
+      name: codepix
+  nlb-network:
+    driver: bridge
