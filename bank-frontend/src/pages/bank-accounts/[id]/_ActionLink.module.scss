@@ -1,0 +1,44 @@
+@import "styles/variables";
+
+.actionLink {
+  font-size: 1.3em;
+  font-weight: 500;
+  color: $bankNLB;
+  text-align: left;
+  min-width: 277px;
+  padding: 10px 20px;
+  background-color: $white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 15px;
+
+  &.bankNLB {
+    color: $bankNLB;
+    border-left: 4px solid $bankNLB;
+  }
+
+  &.bankSTX {
+    color: $bankSTX;
+    border-left: 4px solid $bankSTX;
+  }
+
+  &.bank003 {
+    color: $bank003;
+    border-left: 4px solid $bank003;
+  }
+
+  &.bank004 {
+    color: $bank004;
+    border-left: 4px solid $bank004;
+  }
+
+  &.bank005 {
+    color: $bank005;
+    border-left: 4px solid $bank005;
+  }
+
+  &.bank006 {
+    color: $bank006;
+    border-left: 4px solid $bank006;
+  }
+}

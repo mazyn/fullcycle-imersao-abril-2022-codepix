@@ -1,0 +1,16 @@
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
+@import "~bootstrap/scss/bootstrap";
+
+@import "variables";
+@import "forms";
+@import "button";
+
+a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    text-decoration-color: $bankNLB;
+  }
+}

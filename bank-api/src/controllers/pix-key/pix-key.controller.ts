@@ -35,7 +35,7 @@ export class PixKeyController {
     private client: ClientGrpc,
   ) {}
 
-  @Get()
+  @Get(':bankAccountId')
   index(
     @Param('bankAccountId', new ParseUUIDPipe({ version: '4' }))
     bankAccount: string,

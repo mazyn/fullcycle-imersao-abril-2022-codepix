@@ -1,0 +1,13 @@
+@import "styles/variables";
+@import "styles/mixins";
+
+.root {
+  background-color: $white;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  padding: 20px;
+
+  @include respond-to($_992) {
+    width: 450px;
+  }
+}

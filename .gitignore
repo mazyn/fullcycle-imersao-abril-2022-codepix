@@ -25,3 +25,39 @@ codepix/*.out
 bank-api/node_modules
 bank-api/dist*
 bank-api/.docker/dbdata*
+
+# NEXT (BANK-FRONTEND)
+
+# dependencies
+bank-frontend/node_modules
+bank-frontend/.pnp
+bank-frontend/.pnp.js
+
+# testing
+bank-frontend/coverage
+
+# next.js
+bank-frontend/.next/
+bank-frontend/out/
+
+# production
+bank-frontend/build
+
+# misc
+bank-frontend/.DS_Store
+bank-frontend/*.pem
+
+# debug
+bank-frontend/npm-debug.log*
+bank-frontend/yarn-debug.log*
+bank-frontend/yarn-error.log*
+bank-frontend/.pnpm-debug.log*
+
+# local env files
+bank-frontend/.env*.local
+
+# vercel
+bank-frontend/.vercel
+
+# typescript
+bank-frontend/*.tsbuildinfo

@@ -1,0 +1,46 @@
+@import "variables";
+
+.btn {
+  font-size: 1.2em;
+  margin-left: 15px;
+  padding: 3px 20px;
+  border-radius: 7px;
+
+  &.btn-primary {
+    &.bankNLB {
+      background-color: $bankNLB;
+      border-color: $bankNLB;
+    }
+
+    &.bankSTX {
+      background-color: $bankSTX;
+      border-color: $bankSTX;
+    }
+
+    &.bank003 {
+      background-color: $bank003;
+      border-color: $bank003;
+    }
+
+    &.bank004 {
+      background-color: $bank004;
+      border-color: $bank004;
+    }
+
+    &.bank005 {
+      background-color: $bank005;
+      border-color: $bank005;
+    }
+
+    &.bank006 {
+      background-color: $bank006;
+      border-color: $bank006;
+    }
+  }
+
+  &.btn-info {
+    background-color: #f8f8f8;
+    border-color: #ddd;
+    color: $color-text;
+  }
+}
